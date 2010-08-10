@@ -22,8 +22,6 @@ Using Pip::
 
     pip install django-depiction
 
-.. todo:: Need to get this out on PyPi
-
 Or::
 
     pip install -e git+http://github.com/robmadole/django-depiction.git#egg=djangodepiction
