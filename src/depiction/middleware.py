@@ -1,6 +1,9 @@
 import sys
 import cProfile as profile
+import pstats
+
 from cStringIO import StringIO
+from pyprof2calltree import convert
 
 from django.conf import settings
 from django.template import Template, Context
@@ -71,7 +74,7 @@ PROFILE_HTML = """
     <table>
         {% for annotation in annotations %}
             <tr class="main">
-                <td colspan="4"><span class="lineno">{{ annotation.ep.code.co_firstlineno }}</span> 
+                <td colspan="4"><span class="lineno">{{ annotation.ep.code.co_firstlineno }}</span>
                 {{ annotation.ep.code.co_filename|default:annotation.ep.code }}</td>
             </tr>
             {% if annotation.subs %}
@@ -118,7 +121,7 @@ def pull_entry_point(ep):
             subs.append({'width': int(coef * cl.totaltime),
                          'time': 1000 * cl.totaltime,
                          'ep': cl})
-            
+
     return {'ep': ep, 'subs': subs}
 
 
@@ -127,7 +130,7 @@ class ProfilerMiddleware(object):
         return settings.PROFILING and 'prof' in request.GET \
             and (not settings.INTERNAL_IPS or \
             request.META['REMOTE_ADDR'] in settings.INTERNAL_IPS)
-    
+
     def process_view(self, request, callback, callback_args, callback_kwargs):
         if self.can(request):
             self.profiler = profile.Profile()
@@ -136,8 +139,13 @@ class ProfilerMiddleware(object):
 
     def process_response(self, request, response):
         if self.can(request):
-            filter = request.GET.get('prof')
             self.profiler.create_stats()
+
+            if request.GET.get('grind', None):
+                return self._render_grind(request, response)
+
+            filter = request.GET.get('prof')
+
             annotations = []
             for ep in self.profiler.getstats():
                 try:
@@ -149,4 +157,14 @@ class ProfilerMiddleware(object):
             template = Template(PROFILE_HTML)
             context = Context({'annotations': annotations})
             response.content = template.render(context)
+        return response
+
+    def _render_grind(self, request, response):
+        out = StringIO()
+        convert(pstats.Stats(self.profiler), out)
+
+        response['Content-Type'] = 'application/kcachegrind'
+        response['Content-Disposition'] = 'attachment; filename=results.kgrind'
+        response.content = out.getvalue()
+
         return response
