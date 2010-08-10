@@ -47,8 +47,8 @@ And make sure that your internal IP address is present ::
 
     INTERNAL_IPS = ('127.0.0.1',)
 
-Usage
------
+Middleware usage
+----------------
 
 You can trigger output by adding ``prof`` to the query string.  For example, say
 this was a URL in your application ::
@@ -66,6 +66,29 @@ If you already have a query string, add to it like this ::
 To filter by filename ::
 
     http://127.0.0.1:8000/lumberjacks/list?playsDressup=True&prof=django/template
+
+Creating ``kgrind`` files
+-------------------------
+
+There is a project called KCacheGrind that provides a GUI for analyzing profile
+data.  You are on your own to get KCacheGrind installed, but once you do you
+will need a ``.kgrind`` file to look at.
+
+You can do this with a decorator.  Here is a Django View example. ::
+
+    from django.template.loader import render_to_response
+    from depiction.decorator import kgrind
+
+    from lumberjacks.models import *
+
+
+    @kgrind('listing_lumberjacks.kgrind')
+    def list_lumberjacks(request):
+        return render_to_response('lumberjacks/list.html', {
+            men': Lumberjacks.objects.all()})
+        
+This will create a ``listing_lumberjacks.kgrind`` file in the current working
+directory.  You can then load this into KCacheGrind.
     
 Credits
 -------
