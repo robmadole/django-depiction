@@ -4,6 +4,10 @@
 bin
 eggs
 develop-eggs
+downloads
+parts
+
+.coverage
 
 *.egg-info
 
