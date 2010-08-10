@@ -28,8 +28,9 @@ Or::
 
     pip install -e git+http://github.com/robmadole/django-depiction.git#egg=djangodepiction
 
-Usage
------
+
+Settings
+--------
 
 Edit your Django settings, adding this to the ``MIDDLEWARE_CLASSES``. ::
 
@@ -37,6 +38,17 @@ Edit your Django settings, adding this to the ``MIDDLEWARE_CLASSES``. ::
         ...
         'depiction.middleware.ProfilerMiddleware',
     )
+
+Add the following setting ::
+
+    PROFILING = True
+
+And make sure that your internal IP address is present ::
+
+    INTERNAL_IPS = ('127.0.0.1',)
+
+Usage
+-----
 
 You can trigger output by adding ``prof`` to the query string.  For example, say
 this was a URL in your application ::
