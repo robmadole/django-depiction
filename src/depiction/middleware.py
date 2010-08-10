@@ -51,21 +51,47 @@ PROFILE_HTML = """
         .time, td.lineno {
             text-align: right;
         }
+
+        tr.subs.empty td {
+            color: #555;
+        }
+
+        th {
+            font-size: 10px;
+            letter-spacing: 0.03em;
+            text-align: left;
+        }
+
+        td+td, th+th {
+            padding-left: 8px;
+        }
     </style>
 </head>
 <body>
     <table>
         {% for annotation in annotations %}
             <tr class="main">
-                <td colspan="5"><span class="lineno">{{ annotation.ep.code.co_firstlineno }}</span> 
-                {{ annotation.ep.code.co_filename }}</td>
+                <td colspan="4"><span class="lineno">{{ annotation.ep.code.co_firstlineno }}</span> 
+                {{ annotation.ep.code.co_filename|default:annotation.ep.code }}</td>
             </tr>
+            {% if annotation.subs %}
+                <tr>
+                    <th></th>
+                    <th>Total time</th>
+                    <th>Line #</th>
+                    <th>Entry point</th>
+                </tr>
+            {% endif %}
             {% for sub in annotation.subs %}
                 <tr class="subs">
                     <td><span style="width: {{ sub.width }}px;" class="marker"></span></td>
                     <td class="time">{{ sub.time }}</td>
                     <td class="lineno">{{ sub.ep.code.co_firstlineno }}</td>
                     <td>{{ sub.ep.code.co_filename|default:sub.ep.code }}</td>
+                </tr>
+            {% empty %}
+                <tr class="subs empty">
+                    <td colspan="4">No sub calls in the entry point</td>
                 </tr>
             {% endfor %}
         {% endfor %}

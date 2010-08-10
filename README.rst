@@ -15,13 +15,46 @@ for viewing in KDE's KCacheGrind.
 Installation
 ------------
 
-.. todo:: How is it installed?
+You need Django for this to work, if you need help with that `head here
+<http://djangoproject.com>`_
+
+Using Pip::
+
+    pip install django-depiction
+
+.. todo:: Need to get this out on PyPi
+
+Or::
+
+    pip install -e git+http://github.com/robmadole/django-depiction.git#egg=djangodepiction
 
 Usage
 -----
 
-.. todo:: How do we use it
+Edit your Django settings, adding this to the ``MIDDLEWARE_CLASSES``. ::
 
+    MIDDLEWARE_CLASSES = (
+        ...
+        'depiction.middleware.ProfilerMiddleware',
+    )
+
+You can trigger output by adding ``prof`` to the query string.  For example, say
+this was a URL in your application ::
+
+    http://127.0.0.1:8000/lumberjacks/list
+
+To get some profile data on this page ::
+
+    http://127.0.0.1:8000/lumberjacks/list?prof
+
+If you already have a query string, add to it like this ::
+
+    http://127.0.0.1:8000/lumberjacks/list?playsDressup=True&prof
+
+To filter by filename ::
+
+    http://127.0.0.1:8000/lumberjacks/list?playsDressup=True&prof=django/template
+    
 Credits
 -------
 
