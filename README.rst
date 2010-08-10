@@ -28,4 +28,4 @@ Credits
 This was mostly inspired by David Cramer's Middleware.  He get's most of the
 credit for the idea and seed of the code we wrote.
 
-`Here is the Middleware snippet <http://www.pastethat.com/dlnsr`_
+`Here is the Middleware snippet <http://www.pastethat.com/dlnsr>`_
