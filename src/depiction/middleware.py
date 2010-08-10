@@ -139,9 +139,12 @@ class ProfilerMiddleware(object):
 
     def process_response(self, request, response):
         if self.can(request):
-            self.profiler.create_stats()
+            try:
+                self.profiler.create_stats()
+            except AttributeError:
+                return response
 
-            if request.GET.get('grind', None):
+            if 'grind' in request.GET:
                 return self._render_grind(request, response)
 
             filter = request.GET.get('prof')
@@ -157,6 +160,7 @@ class ProfilerMiddleware(object):
             template = Template(PROFILE_HTML)
             context = Context({'annotations': annotations})
             response.content = template.render(context)
+            
         return response
 
     def _render_grind(self, request, response):
