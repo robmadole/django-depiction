@@ -65,6 +65,13 @@ To filter by filename ::
 
     http://127.0.0.1:8000/lumberjacks/list?playsDressup=True&prof=django/template
 
+To get your profile data as a kgrind file ::
+
+    http://127.0.0.1:8000/lumberjacks/list?prof&grind
+
+*Note* You will need to make sure prof is also set. This will trigger a "Save As.."
+file download of the profile data to use in KCacheGrind.
+
 Creating ``kgrind`` files
 -------------------------
 
@@ -84,10 +91,10 @@ You can do this with a decorator.  Here is a Django View example. ::
     def list_lumberjacks(request):
         return render_to_response('lumberjacks/list.html', {
             men': Lumberjacks.objects.all()})
-        
+
 This will create a ``listing_lumberjacks.kgrind`` file in the current working
 directory.  You can then load this into KCacheGrind.
-    
+
 Credits
 -------
 
