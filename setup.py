@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-import sys, os
+import os
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
@@ -23,9 +23,8 @@ setup(name='django-depiction',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
-        'License :: OSI Approved :: GNU Affero General Public License v3',
+        'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
-        'Topic :: Software Development',
     ],
     keywords='profile cprofile django middleware',
     author='Travis Chase, Rob Madole',
