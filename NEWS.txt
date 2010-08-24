@@ -1,6 +1,13 @@
 News
 ----
 
+0.1.1
+~~~~~
+
+*Release date: August 10th, 2010*
+
+* Adding the ability to download a kgrind file with a query string param
+
 0.1
 ~~~
 
