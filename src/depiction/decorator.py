@@ -23,5 +23,7 @@ def kgrind(filename):
 
             convert(stats, filename)
 
+            return f_ret_val
+
         return wrapper
     return fwrapper
