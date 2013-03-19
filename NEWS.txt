@@ -1,6 +1,14 @@
 News
 ----
 
+0.1.2
+~~~~~
+
+*Release date: March 19th, 2013*
+
+* Fix issue #1 and #2: decorator does not return value from called function.
+  (by raopm)
+
 0.1.1
 ~~~~~
 
